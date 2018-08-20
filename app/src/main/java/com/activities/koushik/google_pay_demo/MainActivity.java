@@ -30,7 +30,8 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private PaymentsClient mPaymentsClient;// Arbitrarily-picked result code.
+    private PaymentsClient mPaymentsClient;
+    // Arbitrarily-picked result code.
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
     private static final String TAG = MainActivity.class.getSimpleName();
     private Button vBtnGooglePay;
@@ -184,6 +185,8 @@ public class MainActivity extends AppCompatActivity {
         PaymentDataRequest.Builder request =
                 PaymentDataRequest.newBuilder()
                         .setTransactionInfo(
+                                // Supported countries for shipping (use ISO 3166-1 alpha-2 country codes).
+                                // Relevant only when requesting a shipping address.
                                 TransactionInfo.newBuilder()
                                         .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
                                         .setTotalPrice("10.00")
@@ -201,6 +204,10 @@ public class MainActivity extends AppCompatActivity {
                                                         WalletConstants.CARD_NETWORK_MASTERCARD))
                                         .build());
 
+        // Custom parameters required by the processor / gateway.
+        // In many cases, your processor / gateway will only require a gatewayMerchantId.
+        // Please refer to your processor's documentation for more information. The number of parameters
+        // required and their names vary depending on the processor.
         PaymentMethodTokenizationParameters params =
                 PaymentMethodTokenizationParameters.newBuilder()
                         .setPaymentMethodTokenizationType(
