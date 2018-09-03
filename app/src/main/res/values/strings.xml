@@ -2,5 +2,5 @@
     <string name="app_name">Google_Pay_Demo</string>
     <string name="googlepay_status_unavailable" translatable="false">Unfortunately, Google Pay is not available on this phone.</string>
     <string name="googlepay_status_checking" translatable="false">Checking if Google Pay is available...</string>
-    <string name="payments_show_name" translatable="false">Successfully received payment data for %s!</string>
+    <string name="payments_show_name" translatable="false">Successfully received payment</string>
 </resources>

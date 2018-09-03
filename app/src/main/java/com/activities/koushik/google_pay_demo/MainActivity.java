@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.show();
             }
 
-            String billingName = paymentData.getCardInfo().getBillingAddress().getName();
-            Toast.makeText(this, getString(R.string.payments_show_name, billingName), Toast.LENGTH_LONG).show();
+            //String billingName = paymentData.getCardInfo().getBillingAddress().getName();
+            Toast.makeText(this, getString(R.string.payments_show_name), Toast.LENGTH_LONG).show();
 
             // Use token.getToken() to get the token string.
             Log.d("PaymentData", "PaymentMethodToken received");
