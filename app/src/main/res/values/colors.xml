@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#F14A53</color>
+    <color name="colorPrimaryDark">#da434b</color>
+    <color name="colorAccent">#FDC125</color>
+    <color name="productGridBackgroundColor">#FFFFFF</color>
+    <color name="color_f5f6f5">#f5f6f5</color>
+    <color name="color_stroke">#b5b5b5</color>
 </resources>

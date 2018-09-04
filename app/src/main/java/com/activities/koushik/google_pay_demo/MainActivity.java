@@ -4,12 +4,17 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activities.koushik.google_pay_demo.adapter.ProductListAdapter;
+import com.activities.koushik.google_pay_demo.model.ConstractModel;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +33,7 @@ import com.google.android.gms.wallet.WalletConstants;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProductListAdapter.IProductItem {
 
     private PaymentsClient mPaymentsClient;
     // Arbitrarily-picked result code.
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private Button vBtnGooglePay;
     private TextView vTVGoogleStatus;
+    private String mPrice = "0.0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+        ProductListAdapter adapter = new ProductListAdapter(this,
+                new ConstractModel().constructDataModel(), this);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -175,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
         // let the user know if isReadyToPay returns false.
         if (available) {
             vTVGoogleStatus.setVisibility(View.GONE);
-            vBtnGooglePay.setVisibility(View.VISIBLE);
+            vBtnGooglePay.setVisibility(View.GONE);
         } else {
             vTVGoogleStatus.setText(R.string.googlepay_status_unavailable);
         }
@@ -189,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                                 // Relevant only when requesting a shipping address.
                                 TransactionInfo.newBuilder()
                                         .setTotalPriceStatus(WalletConstants.TOTAL_PRICE_STATUS_FINAL)
-                                        .setTotalPrice("10.00")
+                                        .setTotalPrice(mPrice)
                                         .setCurrencyCode("USD")
                                         .build())
                         .addAllowedPaymentMethod(WalletConstants.PAYMENT_METHOD_CARD)
@@ -218,5 +232,19 @@ public class MainActivity extends AppCompatActivity {
 
         request.setPaymentMethodTokenizationParameters(params);
         return request.build();
+    }
+
+    @Override
+    public void onBuyClick(String price) {
+        mPrice = price;
+        PaymentDataRequest request = createPaymentDataRequest();
+        if (request != null) {
+            AutoResolveHelper.resolveTask(
+                    mPaymentsClient.loadPaymentData(request),
+                    MainActivity.this,
+                    // LOAD_PAYMENT_DATA_REQUEST_CODE is a constant value
+                    // you define.
+                    LOAD_PAYMENT_DATA_REQUEST_CODE);
+        }
     }
 }
