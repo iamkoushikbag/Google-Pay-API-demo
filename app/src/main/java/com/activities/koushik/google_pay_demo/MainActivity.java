@@ -226,8 +226,8 @@ public class MainActivity extends AppCompatActivity implements ProductListAdapte
                 PaymentMethodTokenizationParameters.newBuilder()
                         .setPaymentMethodTokenizationType(
                                 WalletConstants.PAYMENT_METHOD_TOKENIZATION_TYPE_PAYMENT_GATEWAY)
-                        .addParameter("gateway", "example")
-                        .addParameter("gatewayMerchantId", "exampleGatewayMerchantId")
+                        .addParameter("gateway", "payu")
+                        .addParameter("gatewayMerchantId", "0fc52ed3fe43305549924570e64d5427 ")
                         .build();
 
         request.setPaymentMethodTokenizationParameters(params);
